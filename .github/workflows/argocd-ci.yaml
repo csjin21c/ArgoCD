@@ -42,3 +42,24 @@ jobs:
           docker push $ECR_REGISTRY/csjin/nginx:$IMAGE_TAG
           docker tag $ECR_REGISTRY/csjin/nginx:$IMAGE_TAG $ECR_REGISTRY/csjin/nginx:latest
           docker push $ECR_REGISTRY/csjin/nginx:latest
+      # ==========================================================
+      # 핵심 추가 단계: k8s 폴더의 YAML 파일을 수정하여 ArgoCD에게 배포를 지시합니다.
+      # ==========================================================
+      - name: Update K8s Manifests (ArgoCD Trigger)
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # 1. deployment.yaml 파일 내의 이미지 태그를 새로 생성된 $IMAGE_TAG(커밋 해시)로 교체합니다.
+          # fastapi 이미지 태그 업데이트
+          sed -i "s|image: $ECR_REGISTRY/csjin/fastapi:.*|image: $ECR_REGISTRY/csjin/fastapi:$IMAGE_TAG|g" k8s/deployment.yaml
+
+          # nginx 이미지 태그 업데이트 (만약 deployment.yaml에 nginx도 있다면 같이 수행)
+          sed -i "s|image: $ECR_REGISTRY/csjin/nginx:.*|image: $ECR_REGISTRY/csjin/nginx:$IMAGE_TAG|g" k8s/deployment.yaml
+
+          # 2. 변경된 YAML 파일을 다시 GitHub 리포지토리에 푸시합니다.
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add k8s/deployment.yaml
+          git commit -m "Auto-deploy: update image tags to $IMAGE_TAG [skip ci]"
+          git push
