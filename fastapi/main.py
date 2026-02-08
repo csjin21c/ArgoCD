@@ -4,7 +4,7 @@ import uvicorn
 # 1. FastAPI 인스턴스 생성
 app = FastAPI()
 
-# 2. 기본 경로(Root) 설정
+# 2. 기본 경로(Root) 설정: 
 @app.get("/")
 def read_root():
     return {"Hello": "World", "Status": "Success"}
