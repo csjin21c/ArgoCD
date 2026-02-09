@@ -85,7 +85,7 @@ spec:
       containers:
         # 1번 컨테이너: Nginx (웹서버 역할)
         - name: nginx
-          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/nginx:1a8e62fa442383e84567584fc8dff18c517ec955
+          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/nginx:40b9833fa099ab039d05070f2ff14e9cc48bc4b1
           ports:
             - containerPort: 80 # 컨테이너 안에서 Nginx가 사용하는 포트
           resources: # [중요] HPA가 CPU 사용량을 계산하기 위한 기준 설정
@@ -98,7 +98,7 @@ spec:
 
         2번 컨테이너: FastAPI (Application 역할)
         - name: fastapi
-          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:1a8e62fa442383e84567584fc8dff18c517ec955
+          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:40b9833fa099ab039d05070f2ff14e9cc48bc4b1
           ports:
             - containerPort: 8000 # FastAPI가 사용하는 포트
           resources:
