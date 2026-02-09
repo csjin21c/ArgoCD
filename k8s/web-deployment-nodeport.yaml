@@ -15,10 +15,10 @@ spec:
       protocol: TCP
       port: 80 # 로드밸런서가 외부에서 받는 포트
       targetPort: 80 # 실제 파드로 전달되는 포트
-    - name: custom-port # [리스너 2] 추가된 리스너
-      protocol: TCP
-      port: 8000 # 외부에서 8080으로 접속하면
-      targetPort: 8000 # 파드의 80번으로 전달 (포트 포워딩 역할)
+    # - name: custom-port # [리스너 2] 추가된 리스너
+    #   protocol: TCP
+    #   port: 8000 # 외부에서 8080으로 접속하면
+    #   targetPort: 8000 # 파드의 80번으로 전달 (포트 포워딩 역할)
 ---
 # 2. Ingress를 통해 ALB를 생성합니다
 apiVersion: networking.k8s.io/v1
@@ -57,13 +57,13 @@ spec:
                 name: web-project-svc # 서비스 이름과 일치해야 함
                 port:
                   number: 80
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: web-project-svc # 서비스 이름과 일치해야 함
-                port:
-                  number: 8000
+          # - path: /api
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: web-project-svc # 서비스 이름과 일치해야 함
+          #       port:
+          #         number: 8000
 ---
 # ---------------------------------------------------------
 # 2. Deployment: 애플리케이션(Nginx) 컨테이너 실행 정의 (Test)
@@ -96,15 +96,15 @@ spec:
               cpu: "250m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
               memory: "256Mi"
 
-        2번 컨테이너: FastAPI (Application 역할)
-        - name: fastapi
-          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:0ed65ced4f78acf2c3d305ae2fa2ce4daf2755b5
-          ports:
-            - containerPort: 8000 # FastAPI가 사용하는 포트
-          resources:
-            requests:
-              cpu: "100m" # [예약] "최소한 이만큼은 보장해줘" (스케줄링 기준)
-              memory: "128Mi"
-            limits:
-              cpu: "500m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
-              memory: "256Mi"
+        # 2번 컨테이너: FastAPI (Application 역할)
+        # - name: fastapi
+        #   image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:0ed65ced4f78acf2c3d305ae2fa2ce4daf2755b5
+        #   ports:
+        #     - containerPort: 8000 # FastAPI가 사용하는 포트
+        #   resources:
+        #     requests:
+        #       cpu: "100m" # [예약] "최소한 이만큼은 보장해줘" (스케줄링 기준)
+        #       memory: "128Mi"
+        #     limits:
+        #       cpu: "500m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
+        #       memory: "256Mi"
