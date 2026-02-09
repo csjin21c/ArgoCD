@@ -108,20 +108,3 @@ spec:
         #     limits:
         #       cpu: "500m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
         #       memory: "256Mi"
-<<<<<<< HEAD
-=======
-=======
-        2번 컨테이너: FastAPI (Application 역할)
-        - name: fastapi
-          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:79bdc36232fb73fb9446baaa4dd3b8572c9da2cb
-          ports:
-            - containerPort: 8000 # FastAPI가 사용하는 포트
-          resources:
-            requests:
-              cpu: "100m" # [예약] "최소한 이만큼은 보장해줘" (스케줄링 기준)
-              memory: "128Mi"
-            limits:
-              cpu: "500m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
-              memory: "256Mi"
->>>>>>> f019a49c8203f9042d6873476aa73b1b98938bb1
->>>>>>> dc1fef5c780d052ea0c251b2a72fd3639a0a262c
