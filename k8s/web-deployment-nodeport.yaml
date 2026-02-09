@@ -85,7 +85,7 @@ spec:
       containers:
         # 1번 컨테이너: Nginx (웹서버 역할)
         - name: nginx
-          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/nginx:46c2ab6551590cf3ff350d3512b596b1e38ee885
+          image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/nginx:9a84b5e69ab17b8d394a2b464a208a951c7a740a
           ports:
             - containerPort: 80 # 컨테이너 안에서 Nginx가 사용하는 포트
           resources: # [중요] HPA가 CPU 사용량을 계산하기 위한 기준 설정
@@ -96,6 +96,7 @@ spec:
               cpu: "250m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
               memory: "256Mi"
 
+<<<<<<< HEAD
         2번 컨테이너: FastAPI (Application 역할)
         - name: fastapi
           image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:d7d7b3f1c19a4fc3c0229168bfb20656fe875d70
@@ -108,3 +109,17 @@ spec:
             limits:
               cpu: "500m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
               memory: "256Mi"
+=======
+        # 2번 컨테이너: FastAPI (Application 역할)
+        # - name: fastapi
+        #   image: 626635419731.dkr.ecr.ap-northeast-1.amazonaws.com/csjin/fastapi:9a84b5e69ab17b8d394a2b464a208a951c7a740a
+        #   ports:
+        #     - containerPort: 8000 # FastAPI가 사용하는 포트
+        #   resources:
+        #     requests:
+        #       cpu: "100m" # [예약] "최소한 이만큼은 보장해줘" (스케줄링 기준)
+        #       memory: "128Mi"
+        #     limits:
+        #       cpu: "500m" # [한계] "아무리 바빠도 0.5코어 이상은 쓰지마" (강제 제한)
+        #       memory: "256Mi"
+>>>>>>> 773fed0e280d5c7ce0034708999d72b9bb98ab60
